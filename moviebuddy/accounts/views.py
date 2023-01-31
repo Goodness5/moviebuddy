@@ -21,40 +21,39 @@ from django.contrib.auth import logout
 def index(request):
     return render(request, 'accounts/index.html')
 
-# def Signup(request):
-#     # if request.method == 'POST':
-#     #     username = request.POST['username']
-#     #     first_name = request.POST['first_name']
-#     #     last_name = request.POST['last_name']
-#     #     email = request.POST['email']
-#     #     password = request.POST['password']
-#     #     password1 = request.POST['password1']
+def Signup(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
+        password = request.POST['password']
+        password1 = request.POST['password1']
         
-#     #     if password != password1:
-#     #         messages.warning(request, 'password does not match')
-#     #         return password
-#     #     user_count = User.objects.filter(email = email).count()
+        if password != password1:
+            messages.warning(request, 'password does not match')
+            return password
+        user_count = User.objects.filter(email = email).count()
 
-#     #     if user_count > 0:
-#     #         messages.warning(request,'email already exists')
-#     #         return redirect('signup')
-#     #     if username == None:
-#     #         messages.warning(request, 'username field cannot be blank')
-#     #         return username
-#     #     else:
-#     #         user = User.objects.create_user(email = email, username = username, password = password, first_name = first_name, last_name = last_name)
-#     #         user.save()
-#     #         messages.success(request, 'account successfully created')
-#     #         auth_user = authenticate(username = username, password = password )
-#     #         def mail(request):
-#     #             send_mail('welcome message', 
-#     #                   'welcome test',
-#     #                   ['settings.EMAIL_HOST_USER'],
-#     #                   ['User.email'], 
-#     #                   fail_silently=False,
-#     #                 )
-#     #             return mail(send_mail())
-
-#     #         return redirect('signin')
-#     # else:
-#     return render(request, 'accounts/signup.html')
+        if user_count > 0:
+            messages.warning(request,'email already exists')
+            return redirect('signup')
+        if username == None:
+            messages.warning(request, 'username field cannot be blank')
+            return username
+        else:
+            user = User.objects.create_user(email = email, username = username, password = password, first_name = first_name, last_name = last_name)
+            user.save()
+            messages.success(request, 'account successfully created')
+            auth_user = authenticate(username = username, password = password )
+            def mail(request):
+                send_mail('welcome message', 
+                      'welcome test',
+                      ['settings.EMAIL_HOST_USER'],
+                      ['User.email'], 
+                      fail_silently=False,
+                    )
+                return mail(send_mail())
+            return redirect('index')
+    else:
+        return render(request, 'accounts/signup.html')
