@@ -1,0 +1,139 @@
+body{
+    background-color: white;
+    margin: 0 ;
+}
+.container{
+    /* background-color: red; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2%;
+    /* justify-content: space-between; */
+}
+
+.head{
+    /* background-color: blue; */
+    display: flex;
+    margin: 0 auto;
+    margin-top: 1%;
+    justify-content: center;
+    justify-items: center;
+
+}
+.header{
+    /* background-color: blue; */
+    text-align: center;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.header>h1{
+    /* background-color: red; */
+    font-stretch: ultra-expanded;
+    margin: 0;
+    font-size: 4em;
+    /* z-index: -1; */
+}
+.children>a>p, .children>a>span {
+    color: black;
+    font-weight: lighter;
+}
+.children{
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: row;
+    /* height: 7em; */
+    /* justify-content: space-between; */
+    font-size: 0.8em;
+    width: 45%;
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: flex-end;
+}
+.children>a{
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    padding: 0.7em;
+}
+
+.arrow{
+    /* background-color: red; */
+    z-index: 1;
+    margin-left: -4%;
+    margin-top: 1%;
+    padding: 0;
+    height: 60%;
+    width: 20%;
+}
+.navigation {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin: 20px 0;
+    flex-direction: column;
+  }
+  
+  .line {
+    border-top: 1px solid black;
+    width: 100%;
+    /* margin: 20px 0; */
+  }
+  .navtexts{
+    display: flex;
+    justify-content: space-between;
+    /* margin: 3%; */
+    /* background-color: red; */
+    width: 100%;
+  }
+  .body{
+    /* background-color: blue; */
+    text-align: center;
+  }
+  .quest{
+    /* background-color: blue; */
+    /* width: 100%; */
+    margin-right: 25%;
+    margin-bottom: 6%;
+    text-align: right;
+  }
+  .quest>h1{
+    font-size: 4em;
+  }
+  .quest>a{
+    font: 0.8em;
+    text-decoration: none;
+    color: black;
+    border-bottom: 4px solid black !important;
+  }
+  .movieseg{
+    /* background-color: red; */
+    align-items: right;
+    justify-content: right;
+    /* height: 4em; */
+    width: 100%;
+    display: flex;
+  }
+  .movie1{
+    height: 20em;
+    width: 20em;
+    background-color: blue;
+    margin: 1%;
+  }
+  .movie2{
+    height: 20em;
+    width: 20em;
+    background-color: black;
+    margin-top: 8%;
+    margin-right: 5%;
+  }
+  .movieseg>p{
+    /* background-color: red; */
+    width: 30%;
+    font-size: 2em;
+    display: flex;
+    text-align: justify;
+    margin: 2%;
+  }
+  

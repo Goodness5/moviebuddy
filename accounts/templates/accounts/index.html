@@ -1,0 +1,91 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>books&movies</title>
+    <link rel="stylesheet" href="{% static 'accounts/index.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <div class="container">
+    
+        <!-- THE TOPMOST LOGO -->
+    <div class="head">
+        <object class="headsvg" type="image/svg+xml" data="{% static 'accounts/topstar.svg' %}"></object>
+    </div>
+
+    <!-- THE HEADING -->
+    <div class="header">
+        <h1>Books & Movies</h1>
+        <div class="children">
+        <a href="#">
+            <p>Recommend Books</p>
+            <img class="arrow" src="{% static 'accounts/arrow.svg'%}" alt="">
+        </a>
+
+        <a href="#">
+            <p>Recommend Movies</p>
+        <img class="arrow" src="{% static 'accounts/arrow.svg'%}" alt="">
+        </a>
+    </div>
+
+    <div class="navigation">
+        <div class="line"></div>
+        <div class="navtexts">
+            <p>Anime.</p>
+            <p>Comedy.</p>
+            <p>Korean Series.</p>
+            <p>Movies</p>
+            <p>Horror.</p>
+            <p>Sci-Fi.</p>
+            <p>Romance.</p>
+        </div>
+        <div class="line"></div>
+      </div>
+
+
+      
+    </div>
+
+
+
+    <!-- BODY PART -->
+
+
+    <div class="body">
+        <div class="quest">
+            <h1>Trending Films?</h1>
+            <a href="#">Find them all here</a>
+        </div>
+
+        <div class="movieseg">
+            <div class="movie1"></div>
+            <div class="movie2"></div>
+            <p>Based on views and ratings, these movies are going to worth your time.</p>
+        </div>
+
+
+        <div class="quest">
+            <h1>Books</h1>
+            <a href="#">Find them all here</a>
+        </div>
+        <div class="navigation">
+            <div class="line"></div>
+            <div class="navtexts">
+                <p>Anime.</p>
+                <p>Comedy.</p>
+                <p>Korean Series.</p>
+                <p>Movies</p>
+                <p>Horror.</p>
+                <p>Sci-Fi.</p>
+                <p>Romance.</p>
+            </div>
+            <div class="line"></div>
+          </div>
+    </div>
+
+</div>
+</body>
+</html>
