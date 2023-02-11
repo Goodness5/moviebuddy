@@ -80,12 +80,52 @@ body{
     width: 100%;
     /* margin: 20px 0; */
   }
-  .navtexts{
+  .navtexts {
     display: flex;
     justify-content: space-between;
-    /* margin: 3%; */
-    /* background-color: red; */
     width: 100%;
+    position: relative;
+  }
+  
+  
+.navtexts a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    margin-left: 0;
+    animation: scroll-left 3s linear forwards;
+    /* position: absolute; */
+    /* left: 100%; */
+  }
+  
+  .start-scroll {
+    animation: scroll-left 10s linear forwards;
+  }
+  
+  @keyframes scroll-left {
+    from {
+      margin-left: 0;
+    }
+    to {
+        /* background-color: black; */
+      margin-right: 0%;
+    }
+  }
+/*   
+  .navtexts a:nth-child(1) {
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+  }
+  
+  .navtexts a:nth-child(2) {
+    animation-delay: 10s;
+  } */
+  
+
+  
+  .navtexts>a{
+    text-decoration: none;
+    color: black;
   }
   .body{
     /* background-color: blue; */
@@ -94,17 +134,29 @@ body{
   .quest{
     /* background-color: blue; */
     /* width: 100%; */
-    margin-right: 25%;
+    /* margin-right: 25%; */
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
     margin-bottom: 6%;
-    text-align: right;
+    margin-top: 6%;
   }
-  .quest>h1{
-    font-size: 4em;
+  .quest>.group>h1{
+    font-size: 3.5em;
+    margin: 0;
+    /* background-color: aqua; */
+    /* display: inline-block; */
+    /* margin-left: 30%; */
   }
-  .quest>a{
+  .quest>.group>a{
     font: 0.8em;
     text-decoration: none;
     color: black;
+    text-align: right;
+    padding: 0;
+    margin-top: 4%;
+    float: right;
     border-bottom: 4px solid black !important;
   }
   .movieseg{
@@ -136,4 +188,36 @@ body{
     text-align: justify;
     margin: 2%;
   }
-  
+  .quest2{
+    /* background-color: blue; */
+    /* width: 100%; */
+    /* margin-right: 25%; */
+    /* width: 60%; */
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    margin-bottom: 6%;
+    margin-top: 6%;
+    /* text-align: right; */
+  }
+  .quest2>.group>h1{
+    font-size: 5em;
+    margin: 0;
+    /* background-color: aqua; */
+  }
+  .quest2>.group>a{
+    margin-top: 4%;
+    font: 0.8em;
+    text-decoration: none;
+    color: black;
+    text-align: right;
+    padding: 0;
+    float: right;
+    border-bottom: 4px solid black !important;
+  }
+
+  .group{
+    /* background-color: red; */
+    /* width: 50%; */
+    margin: 0 auto;
+  }
