@@ -23,7 +23,7 @@ function rjs_mousemove(e) {
   rjs_cursor.style.transform = rjs_cursor_pos;
 }
 
-class App extends Component {
+class Home extends Component {
   componentDidMount() {
     // add event listener to window inside componentDidMount
     window.addEventListener('mousemove', rjs_mousemove);
