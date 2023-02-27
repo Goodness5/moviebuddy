@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import '.css/index.css';
+// import logo from './logo.svg';
+import './css/home.css';
 
 // define variables and functions outside the component
 const rjs_cursor =  document.getElementById("rjs_cursor");  
@@ -36,6 +37,7 @@ class App extends Component {
         <title>books&amp;movies</title>
         <link rel="stylesheet" href="{% static 'accounts/index.css' %}" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <script src="{%static 'accounts/index.js'%}"></script>
           <div id="rjs_cursor" className="rjs-cursor">
             <div className="rjs-cursor-icon"></div>
           </div>
@@ -62,65 +64,69 @@ class App extends Component {
                 <div className="navtexts">
                   <a href="#"><p>Anime.</p></a>
                   <a href="#"><p>Comedy.</p></a>
-                  <a href="#"><p>Korean Series.</p></a>
-                  <a href="#"><p>Movies</p></a>
-                  <a href="#"><p>Horror.</p></a>
-                  <a href="#"><p>Sci-Fi.</p></a>
-                  <a href="#"><p>Romance.</p></a>
+                    <a href="#"><p>Korean Series.</p></a>
+                    <a href="#"><p>Movies</p></a>
+                    <a href="#"><p>Horror.</p></a>
+                    <a href="#"><p>Sci-Fi.</p></a>
+                    <a href="#"><p>Romance.</p></a>
+                </div>
+                <div class="line"></div>
+              </div>
+        
+              
+        
+              
             </div>
-        <div class="line"></div>
-      </div>
-
-      
-
-      
-    </div>
-
-
-
-    {/* <!-- BODY PART --> */}
-
-
-    <div class="body">
-        <div class="quest">
-            <span class="group">
-                <h1>Trending Films?</h1>
-                <a href="#">Find them all here</a>
-                </span>
-        </div>
-
-        <div class="movieseg">
-            <div class="movie1"></div>
-            <div class="movie2"></div>
-            <p>Based on views and ratings, these movies are going to worth your time.</p>
-        </div>
-
-
-        <div class="quest2">
-            <span class="group">
-            <h1>Books</h1>
-            <a href="#">Find them all here</a>
-            </span>
-        </div>
-        <div class="navigation">
-            <div class="line"></div>
-            <div class="navtexts">
-                <a href="#"><p>Anime.</p></a>
-                <a href="#"><p>Comedy.</p></a>
-                <a href="#"><p>Korean Series.</p></a>
-                <a href="#"><p>Movies</p></a>
-                <a href="#"><p>Horror.</p></a>
-                <a href="#"><p>Sci-Fi.</p></a>
-                <a href="#"><p>Romance.</p></a>
+        
+        
+        
+            {/* <!-- BODY PART --> */}
+        
+        
+            <div class="body">
+                <div class="quest">
+                    <span class="group">
+                        <h1>Trending Films?</h1>
+                        <a href="#">Find them all here</a>
+                        </span>
+                </div>
+        
+                <div class="movieseg">
+                    <div class="movie1"></div>
+                    <div class="movie2"></div>
+                    <p>Based on views and ratings, these movies are going to worth your time.</p>
+                </div>
+        
+        
+                <div class="quest2">
+                    <span class="group">
+                    <h1>Books</h1>
+                    <a href="#">Find them all here</a>
+                    </span>
+                </div>
+                <div class="navigation">
+                    <div class="line"></div>
+                    <div class="navtexts">
+                        <a href="#"><p>Anime.</p></a>
+                        <a href="#"><p>Comedy.</p></a>
+                        <a href="#"><p>Korean Series.</p></a>
+                        <a href="#"><p>Movies</p></a>
+                        <a href="#"><p>Horror.</p></a>
+                        <a href="#"><p>Sci-Fi.</p></a>
+                        <a href="#"><p>Romance.</p></a>
+                    </div>
+                    <div class="line"></div>
+                  </div>
             </div>
-            <div class="line"></div>
-          </div>
+        
+        </div>
+        
+        
+        
+        
     </div>
-
-</div>
-</div>
-
-)}};
-
-
-export default App;
+    );
+    }
+  }
+  
+  export default Home;
