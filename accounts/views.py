@@ -13,7 +13,7 @@ from django.contrib.auth import logout
 
 #REGISTRATION VIEW FUNCTION
 def index(request):
-    return render(request, 'accounts/index.html')
+    return render(request, 'index.html')
 
 
 

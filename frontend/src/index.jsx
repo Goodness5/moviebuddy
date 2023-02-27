@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import '.css/index.css';
 
 // define variables and functions outside the component
 const rjs_cursor =  document.getElementById("rjs_cursor");  
