@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import './css/App.css';
-import  Home  from "./home";
+import './App.css';
+// import  Home  from "./Home";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Home';
 
 class App extends Component {
   render() {
