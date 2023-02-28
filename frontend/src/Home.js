@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import topstar from "./images/topstar.svg";
 import arrow from "./images/arrow.svg";
 import "./home.css"
 
-
 const Home = () => {
-    const rjs_cursor =  document.getElementById("rjs_cursor");  
+  useEffect(() => {
+    const rjs_cursor = document.getElementById("rjs_cursor");
     
     const rjs_show_cursor=(e)=> { 
       if(rjs_cursor.classList.contains('rjs_cursor_hidden')) {
@@ -27,6 +27,11 @@ const Home = () => {
     }
 
     window.addEventListener('mousemove', rjs_mousemove);
+
+    return () => {
+      window.removeEventListener('mousemove', rjs_mousemove);
+    };
+  }, []);
     return (
         <div>
         {/* add the meta tags and script tag to index.html */}
