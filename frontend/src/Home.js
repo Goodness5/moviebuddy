@@ -4,7 +4,7 @@ import arrow from "./images/arrow.svg";
 import "./home.css"
 
 const Home = () => {
-   const [loading, setloading] = useState(false);
+  //  const [loading, setloading] = useState(true);
   useEffect(() => {
     const rjs_cursor = document.getElementById("rjs_cursor");
     
@@ -126,7 +126,7 @@ const Home = () => {
         
         
     </div>
-    )
+    );
 }
 
 export default Home
