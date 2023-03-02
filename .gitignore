@@ -132,3 +132,6 @@ dmypy.json
 .env
 .sqlite3
 db.sqlite3
+
+# Local Netlify folder
+.netlify
