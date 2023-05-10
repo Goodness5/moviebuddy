@@ -58,7 +58,7 @@ ROOT_URLCONF = 'moviebuddy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'build')],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', '.next')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

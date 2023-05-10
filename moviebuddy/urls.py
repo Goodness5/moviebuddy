@@ -26,5 +26,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')),
     path(r'', views.index, name='index'),
-    # path("", include("django_nextjs.urls")),
 ] 
