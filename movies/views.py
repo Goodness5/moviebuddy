@@ -14,14 +14,11 @@ def get_imdb_data(imdb_url, imdb_params, fields):
     imdb_params['apiKey'] = "k_5tp79h7z"
     response = requests.get(imdb_url, params=imdb_params)
     data = response.json()
-    if data['errorMessage']:
+    if 'errorMessage' in data:
         return []
     results = data['results']
     return [{field: result[field] for field in fields} for result in results]
 
-import requests
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
 class MovieDetails(APIView):
     def get(self, request):
@@ -81,15 +78,48 @@ class MovieList(APIView):
         else:
             return Response({'message': 'No movies found with the given criteria'})
 
+def get_movie_data(title):
+    imdb_url = 'https://imdb-api.com/API/SearchMovie/'
+    imdb_params = {'expression': title}
+    response = requests.get(imdb_url, params=imdb_params)
+    if response.status_code == 200:
+        try:
+            data = response.json()
+        except ValueError:
+            # If there is no JSON data, return an empty list
+            return []
+        if data['errorMessage']:
+            return []
+        results = data['results']
+        if len(results) == 0:
+            return []
+        # Get the IMDB ID for the first result
+        imdb_id = results[0]['id']
+        imdb_url = 'https://imdb-api.com/API/Title/'
+        imdb_params = {'apiKey': 'k_5tp79h7z', 'id': imdb_id, 'plot': 'full'}
+        response = requests.get(imdb_url, params=imdb_params)
+        if response.status_code == 200:
+            try:
+                data = response.json()
+            except ValueError:
+                # If there is no JSON data, return an empty list
+                return []
+            if data['errorMessage']:
+                return []
+            # Extract the relevant movie data
+            movie_data = {
+                'title': data['title'],
+                'plot': data['plot'],
+                'year': data['year'],
+                'genres': data['genres'],
+                'runtime': data['runtimeStr'],
+                'rating': data['imDbRating'],
+                'cast': data['stars'],
+                'poster': data['image'],
+            }
+            return [movie_data]
+    return []
 
-
-
-
-def index(request):
-    return render(request, "index.html")
-
-def movielist(request):
-    return render(request, 'index.html')
 
 class RecommendMovies(APIView):
     def get(self, request):
@@ -139,3 +169,12 @@ def movies_by_genre(request, genre):
         ]
     }
     return JsonResponse(data)
+
+
+
+
+def index(request):
+    return render(request, "index.html")
+
+def movielist(request):
+    return render(request, 'index.html')
