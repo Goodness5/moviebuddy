@@ -14,13 +14,13 @@ import {
   
   const Footer = () => {
     return (
-      <div className=" bottom-0  w-full overflow-clip">
-        <div className="bg-[#052c5b] justify-between  text-center pb-[100px] pt-[20px] ">
+      <div className=" bottom-0  w-full overflow-clip mt-40 border-t-2 border-black">
+        {/* <div className="bg-[#052c5b] justify-between  text-center pb-[100px] pt-[20px] ">
           <h3 className="text-white text-[32px] font-bold text-center">
             Subscribe Now!
           </h3>
           <p className="text-white text-[14px] ">
-            get the latest news and updates from devxspace
+            get the latest news and updates from moviebuddy
           </p>
           <form className=" w-full items-center mt-[12px] ">
             <div className="rounded-lg w-full">
@@ -28,7 +28,7 @@ import {
                 type="email"
                 name=""
                 id=""
-                placeholder="example@devxspace.com"
+                placeholder="example@moviebuddy.com"
                 className="h-12 w-2/4 text-start rounded-l-lg px-4"
               />
               <button
@@ -39,7 +39,7 @@ import {
               </button>
             </div>
           </form>
-        </div>
+        </div> */}
   
   
         <div className="">

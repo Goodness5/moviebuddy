@@ -11,8 +11,7 @@ root.render(
      <PageLayout>
 
     <App />
-    
-     </PageLayout>
+    </PageLayout>
   </React.StrictMode>
 );
 

@@ -26,7 +26,7 @@ const Landingpage = () => {
         </div>
 
         <div className="w-2/3 flex flex-col items-center justify-between text-left">
-          <h1 className="text-6xl bg-slate-300 text-left font-bold mb-4">Books &amp; Movies</h1>
+          <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
           <p>Recommends books and movies to you based on your personality and taste</p>
           <div className="flex flex-row justify-between w-2/4 m-auto mt-5">
             <div className="rounded-full flex border border-black justify-center p-1">

@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django_nextjs import render_to_response
 
 
 def get_imdb_data(imdb_url, imdb_params, fields):
@@ -20,7 +19,7 @@ def get_imdb_data(imdb_url, imdb_params, fields):
 
 
 def index(request):
-    return render_to_response(request, "index.html")
+    return render(request, "index.html")
 
 class RecommendMovies(APIView):
     def get(self, request):
