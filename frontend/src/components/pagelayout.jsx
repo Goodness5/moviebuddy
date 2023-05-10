@@ -5,8 +5,11 @@ import Footer from "./Footer";
 
 const PageLayout = () =>{
     return(
+        <>
         <Cursoranimation />
-        <Footer></Footer>
+        <Footer />
+
+        </>
     )
 }
 
