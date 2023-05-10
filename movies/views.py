@@ -4,6 +4,8 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
+
 
 
 def get_imdb_data(imdb_url, imdb_params, fields):
@@ -16,6 +18,30 @@ def get_imdb_data(imdb_url, imdb_params, fields):
         return []
     results = data['results']
     return [{field: result[field] for field in fields} for result in results]
+
+
+class MovieList(APIView):
+    def get(self, request):
+        genre = request.GET.get('genre')
+        imdb_url = 'https://imdb-api.com/API/SearchMovie/'
+        imdb_params = {'expression': 'movie'}
+        if genre:
+            imdb_params['genre'] = genre
+        fields = ['title', 'image', 'plot', 'imDb']
+        imdb_data = get_imdb_data(imdb_url, imdb_params, fields)
+        if imdb_data:
+            movies = [{
+                'name': movie['title'],
+                'url': f'https://www.netflix.com/search?q={movie["title"].replace(" ", "+")}',
+                'image': movie['image'],
+                'plot': movie['plot'],
+                'rating': movie['imDb']
+            } for movie in imdb_data]
+            movie_list_html = render_to_string('movie_list.html', {'movies': movies})
+            return Response({'movie_list_html': movie_list_html})
+        else:
+            return Response({'message': 'No movies found with the given criteria'})
+
 
 
 def index(request):
@@ -53,23 +79,39 @@ class RecommendMovies(APIView):
         else:
             return Response({'message': 'No movies found with the given criteria'})
 
-class MovieList(APIView):
-    def get(self, request):
-        genre = request.GET.get('genre')
-        imdb_url = 'https://imdb-api.com/API/SearchMovie/'
-        imdb_params = {'expression': 'movie'}
-        if genre:
-            imdb_params['genre'] = genre
-        fields = ['title', 'image', 'plot', 'imDb']
-        imdb_data = get_imdb_data(imdb_url, imdb_params, fields)
-        if imdb_data:
-            movies = [{
-                'name': movie['title'],
-                'url': f'https://www.netflix.com/search?q={movie["title"].replace(" ", "+")}',
-                'image': movie['image'],
-                'plot': movie['plot'],
-                'rating': movie['imDb']
-            } for movie in imdb_data]
-            return Response({'movies': movies})
-        else:
-            return Response({'message': 'No movies found with the given criteria'})
+
+def movies_by_genre(request, genre):
+    movies = Movie.objects.filter(genre=genre)
+    data = {
+        'movies': [
+            {
+                'title': movie.title,
+                'description': movie.description,
+                'genre': movie.genre,
+                'release_date': movie.release_date.strftime('%Y-%m-%d'),
+                'poster': movie.poster.url,
+            }
+            for movie in movies
+        ]
+    }
+    return JsonResponse(data)
+# class MovieList(APIView):
+#     def get(self, request):
+#         genre = request.GET.get('genre')
+#         imdb_url = 'https://imdb-api.com/API/SearchMovie/'
+#         imdb_params = {'expression': 'movie'}
+#         if genre:
+#             imdb_params['genre'] = genre
+#         fields = ['title', 'image', 'plot', 'imDb']
+#         imdb_data = get_imdb_data(imdb_url, imdb_params, fields)
+#         if imdb_data:
+#             movies = [{
+#                 'name': movie['title'],
+#                 'url': f'https://www.netflix.com/search?q={movie["title"].replace(" ", "+")}',
+#                 'image': movie['image'],
+#                 'plot': movie['plot'],
+#                 'rating': movie['imDb']
+#             } for movie in imdb_data]
+#             return Response({'movies': movies})
+#         else:
+#             return Response({'message': 'No movies found with the given criteria'})
