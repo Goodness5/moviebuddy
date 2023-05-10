@@ -81,7 +81,7 @@ import {
           
         </div>
         <div className="text-[14px] mt-7 text-center pb-4">
-          &copy; devxspace 2023 All rights reserved
+          &copy;moviebuddy 2023 All rights reserved
         </div>
       </div>
     );
