@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Nominees</title>
+</head>
+<body>
+  <div id="card-container"></div>
+
+  <script>
+    const cardContainer = document.getElementById('card-container');
+
+    fetch('https://hapi-books.p.rapidapi.com/nominees/romance/2020', {
+      headers: {
+        'X-RapidAPI-Key': '14e86f91f3msh69a4dcb04fd5f67p1fc0c3jsndfe654f7ca2a',
+        'X-RapidAPI-Host': 'hapi-books.p.rapidapi.com'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      for (let i = 0; i < data.length; i++) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const title = document.createElement('h3');
+        title.innerText = data[i].name;
+        card.appendChild(title);
+
+        const description = document.createElement('p');
+        description.innerText = data[i].author;
+        card.appendChild(description);
+
+        const cover = document.createElement('img');
+        cover.src = data[i].cover;
+        cover.style.height = '30vh';
+        card.appendChild(cover);
+
+        const read = document.createElement('a');
+        read.innerText = 'Read';
+        read.href = data[i].url;
+        card.appendChild(read);
+
+        cardContainer.appendChild(card);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  </script>
+</body>
+</html>
