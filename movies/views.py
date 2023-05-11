@@ -10,14 +10,17 @@ from rest_framework.renderers import JSONRenderer
 
 def get_imdb_data(imdb_url, imdb_params, fields):
     load_dotenv(find_dotenv())
-    # imdb_api_key = os.environ['IMDB_API_KEY']
-    imdb_params['apiKey'] = "k_5tp79h7z"
+    imdb_params['apiKey'] = 'k_3ksfua4o'
     response = requests.get(imdb_url, params=imdb_params)
     data = response.json()
     if 'errorMessage' in data:
-        return []
-    results = data['results']
+        raise Exception(f"Error from IMDb API: {data['errorMessage']}")
+    results = data['items']
+    print(results)
     return [{field: result[field] for field in fields} for result in results]
+
+
+
 
 
 class MovieDetails(APIView):
@@ -43,40 +46,56 @@ class MovieDetails(APIView):
                 'poster': result['image']
             })
         return Response({'movie_data': movie_data})
-
+    
 class MovieList(APIView):
     renderer_classes = [JSONRenderer]
 
     def get(self, request):
         genre = request.GET.get('genre')
-        imdb_url = 'https://imdb-api.com/API/SearchAll/'
-        imdb_params = {'expression': 'movie', 'imdb': True}
+        imdb_url = 'https://imdb-api.com/API/MostPopularMovies/k_b4cfp83v'
+        imdb_params = {}
         if genre:
             imdb_params['genre'] = genre
         fields = ['title', 'image']
-        imdb_data = get_imdb_data(imdb_url, imdb_params, fields)
-        if imdb_data:
+
+        imdb_response = requests.get(imdb_url, params=imdb_params)
+        imdb_response.raise_for_status()
+        imdb_data = imdb_response.json()
+
+        if imdb_data['items']:
             movies = []
-            for movie in imdb_data:
+            count = 0
+            for movie in imdb_data['items']:
+                if count == 5:
+                    break
                 title = movie['title']
-                movie_data = get_movie_data(title)
-                if movie_data:
-                    movies.append({
-                        'name': movie_data[0]['title'],
-                        'url': f'https://www.netflix.com/search?q={title.replace(" ", "+")}',
-                        'image': movie_data[0]['poster'],
-                        'plot': movie_data[0]['plot'],
-                        'rating': movie_data[0]['rating']
-                    })
+                movie_url = f'http://www.omdbapi.com/?t={title}&apikey=f73240e0&plot=full'
+                movie_response = requests.get(movie_url)
+                movie_response.raise_for_status()
+                movie_data = movie_response.json()
+                if movie_data['Response'] == 'False':
+                    try:
+                        raise Exception(f'{movie_data["Error"]} for "{title}"')
+                    except Exception as e:
+                        return Response({'message': str(e)})
                 else:
                     movies.append({
-                        'name': title,
+                        'name': movie_data['Title'],
                         'url': f'https://www.netflix.com/search?q={title.replace(" ", "+")}',
-                        'image': movie['image']
+                        'image': movie_data['Poster'],
+                        'plot': movie_data['Plot'],
+                        'rating': movie_data['imdbRating']
                     })
+                    count += 1
             return Response({'recommendations': movies})
         else:
-            return Response({'message': 'No movies found with the given criteria'})
+            try:
+                raise Exception('No movies found with the given criteria')
+            except Exception as e:
+                return Response({'message': str(e)})
+
+
+
 
 def get_movie_data(title):
     imdb_url = 'https://imdb-api.com/API/SearchMovie/'
@@ -86,26 +105,29 @@ def get_movie_data(title):
         try:
             data = response.json()
         except ValueError:
-            # If there is no JSON data, return an empty list
-            return []
+            # If there is no JSON data, return an error message
+            return {'error': 'No JSON data found.'}
         if data['errorMessage']:
-            return []
+            # If there is an error message, return it
+            return {'error': data['errorMessage']}
         results = data['results']
         if len(results) == 0:
-            return []
+            # If there are no results, return an error message
+            return {'error': 'No results found.'}
         # Get the IMDB ID for the first result
         imdb_id = results[0]['id']
         imdb_url = 'https://imdb-api.com/API/Title/'
-        imdb_params = {'apiKey': 'k_5tp79h7z', 'id': imdb_id, 'plot': 'full'}
+        imdb_params = {'apiKey': 'k_3ksfua4o', 'id': imdb_id, 'plot': 'full'}
         response = requests.get(imdb_url, params=imdb_params)
         if response.status_code == 200:
             try:
                 data = response.json()
             except ValueError:
-                # If there is no JSON data, return an empty list
-                return []
+                # If there is no JSON data, return an error message
+                return {'error': 'No JSON data found.'}
             if data['errorMessage']:
-                return []
+                # If there is an error message, return it
+                return {'error': data['errorMessage']}
             # Extract the relevant movie data
             movie_data = {
                 'title': data['title'],
@@ -118,7 +140,12 @@ def get_movie_data(title):
                 'poster': data['image'],
             }
             return [movie_data]
-    return []
+        else:
+            # If there is an HTTP error, return an error message
+            return {'error': 'HTTP error.'}
+    else:
+        # If there is an HTTP error, return an error message
+        return {'error': 'HTTP error.'}
 
 
 class RecommendMovies(APIView):
@@ -140,15 +167,15 @@ class RecommendMovies(APIView):
             movie = imdb_data[0]
             imdb_title = movie['title']
             imdb_image = movie['image']
-            # imdb_plot = movie['plot']
-            # imdb_rating = movie['imDb']
+            imdb_plot = movie['plot']
+            imdb_rating = movie['imDb']
             netflix_url = f'https://www.netflix.com/search?q={imdb_title.replace(" ", "+")}'
             return Response({
                 'name': imdb_title,
                 'url': netflix_url,
                 'image': imdb_image,
-                # 'plot': imdb_plot,
-                # 'rating': imdb_rating
+                'plot': imdb_plot,
+                'rating': imdb_rating
             })
         else:
             return Response({'message': 'No movies found with the given criteria'})
