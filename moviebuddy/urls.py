@@ -27,5 +27,6 @@ urlpatterns = [
     path('movies/', include('movies.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
     path('movielist/', views.movielist, name='movie-list'),
+    path('movielist/<str:genre>', views.movielist, name='movie-list-genre'),
   
 ] 

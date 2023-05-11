@@ -51,7 +51,7 @@ const Landingpage = () => {
   <a href="/" className="text-gray-800">
     <p>Anime</p>
   </a>
-  <a href="/genre/comedy" className="text-gray-800">
+  <a href="/movielist/comedy" className="text-gray-800">
     <p>Comedy</p>
   </a>
   <a href="/genre/korean-series" className="text-gray-800">
