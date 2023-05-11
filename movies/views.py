@@ -47,6 +47,7 @@ class MovieDetails(APIView):
             })
         return Response({'movie_data': movie_data})
     
+
 class MovieList(APIView):
     renderer_classes = [JSONRenderer]
 
@@ -62,6 +63,57 @@ class MovieList(APIView):
         imdb_response.raise_for_status()
         imdb_data = imdb_response.json()
         print(imdb_data)
+        if imdb_data['items']:
+            movies = []
+            count = 0
+            for movie in imdb_data['items']:
+                if count == 5:
+                    break
+                title = movie['title']
+                movie_url = f'http://www.omdbapi.com/?t={title}&apikey=f73240e0&plot=full'
+                movie_response = requests.get(movie_url)
+                movie_response.raise_for_status()
+                movie_data = movie_response.json()
+                if movie_data['Response'] == 'False':
+                    try:
+                        raise Exception(f'{movie_data["Error"]} for "{title}"')
+                    except Exception as e:
+                        return Response({'message': str(e)})
+                else:
+                    movies.append({
+                        'name': movie_data['Title'],
+                        'url': f'https://www.netflix.com/search?q={title.replace(" ", "+")}',
+                        'image': movie_data['Poster'],
+                        'plot': movie_data['Plot'],
+                        'rating': movie_data['imdbRating']
+                    })
+                    count += 1
+            return Response({'recommendations': movies})
+        else:
+            try:
+                raise Exception('No movies found with the given criteria')
+            except Exception as e:
+                return Response({'message': str(e)})
+            
+
+
+
+
+class MovieListByGenre(APIView):
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request):
+        genre = request.GET.get('genre')
+        imdb_url = 'https://imdb-api.com/API/MostPopularMovies/k_b4cfp83v'
+        imdb_params = {}
+        if genre:
+            imdb_params['genre'] = genre
+        fields = ['title', 'image']
+
+        imdb_response = requests.get(imdb_url, params=imdb_params)
+        imdb_response.raise_for_status()
+        imdb_data = imdb_response.json()
+
         if imdb_data['items']:
             movies = []
             count = 0
@@ -204,4 +256,7 @@ def index(request):
     return render(request, "index.html")
 
 def movielist(request):
+    return render(request, 'index.html')
+
+def movielistbygenre(request):
     return render(request, 'index.html')
