@@ -7,10 +7,14 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.renderers import JSONRenderer
 
+load_dotenv()
+
+IMDB_APIKEY = os.getenv("IMDB_API_KEY")
+
 
 def get_imdb_data(imdb_url, imdb_params, fields):
     load_dotenv(find_dotenv())
-    imdb_params['apiKey'] = 'k_3ksfua4o'
+    imdb_params['apiKey'] = IMDB_APIKEY
     response = requests.get(imdb_url, params=imdb_params)
     data = response.json()
     if 'errorMessage' in data:
@@ -53,7 +57,7 @@ class MovieList(APIView):
 
     def get(self, request):
         genre = request.GET.get('genre')
-        imdb_url = 'https://imdb-api.com/API/MostPopularMovies/k_b4cfp83v'
+        imdb_url = f'https://imdb-api.com/API/MostPopularMovies/{IMDB_APIKEY}'
         imdb_params = {}
         if genre:
             imdb_params['genre'] = genre
@@ -102,22 +106,21 @@ class MovieList(APIView):
 class MovieListByGenre(APIView):
     renderer_classes = [JSONRenderer]
 
-    def get(self, request):
-        genre = request.GET.get('genre')
-        imdb_url = 'https://imdb-api.com/API/MostPopularMovies/k_b4cfp83v'
+    def get(self, request, genre):
+        imdb_url = f'https://imdb-api.com/API/AdvancedSearch/{IMDB_APIKEY}'
         imdb_params = {}
         if genre:
-            imdb_params['genre'] = genre
+            imdb_params['genres'] = genre
         fields = ['title', 'image']
 
         imdb_response = requests.get(imdb_url, params=imdb_params)
         imdb_response.raise_for_status()
         imdb_data = imdb_response.json()
 
-        if imdb_data['items']:
+        if imdb_data['results']:
             movies = []
             count = 0
-            for movie in imdb_data['items']:
+            for movie in imdb_data['results']:
                 if count == 5:
                     break
                 title = movie['title']
@@ -125,6 +128,7 @@ class MovieListByGenre(APIView):
                 movie_response = requests.get(movie_url)
                 movie_response.raise_for_status()
                 movie_data = movie_response.json()
+                print(movie_data)
                 if movie_data['Response'] == 'False':
                     try:
                         raise Exception(f'{movie_data["Error"]} for "{title}"')
@@ -258,5 +262,5 @@ def index(request):
 def movielist(request):
     return render(request, 'index.html')
 
-def movielistbygenre(request):
+def movielistbygenre(request, genre):
     return render(request, 'index.html')
