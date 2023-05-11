@@ -48,25 +48,25 @@ const Landingpage = () => {
         <div className="movies-container mt-6">
           <div className="line h-px bg-gray-700 flex-grow"></div>
           <div className="navigation flex items-center justify-between mt-4">
-  <a href="/" className="text-gray-800">
+  <a href="/movielist/anime" className="text-gray-800">
     <p>Anime</p>
   </a>
   <a href="/movielist/comedy" className="text-gray-800">
     <p>Comedy</p>
   </a>
-  <a href="/genre/korean-series" className="text-gray-800">
+  <a href="/movielist/korean-series" className="text-gray-800">
     <p>Korean Series</p>
   </a>
   <a href="/movielist" className="text-gray-800">
     <p>Movies</p>
   </a>
-  <a href="/genre/horror" className="text-gray-800">
+  <a href="/movielist/horror" className="text-gray-800">
     <p>Horror</p>
   </a>
-  <a href="/genre/sci-fi" className="text-gray-800">
+  <a href="/movielist/sci-fi" className="text-gray-800">
     <p>Sci-Fi</p>
   </a>
-  <a href="/genre/romance" className="text-gray-800">
+  <a href="/movielist/romance" className="text-gray-800">
     <p>Romance</p>
   </a>
   <div className="line h-px bg-gray"></div>
@@ -97,25 +97,25 @@ const Landingpage = () => {
                 <div className="movies-container mt-6">
           <div className="line h-px bg-gray-700 flex-grow"></div>
           <div className="navigation flex items-center justify-between mt-4">
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/anime" className="text-gray-800">
               <p>Anime</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/comedy" className="text-gray-800">
               <p>Comedy</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/korean-series" className="text-gray-800">
               <p>Korean Series</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist" className="text-gray-800">
               <p>Movies</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/horror" className="text-gray-800">
               <p>Horror</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/sci-fi" className="text-gray-800">
               <p>Sci-Fi</p>
             </a>
-            <a href="/" className="text-gray-800">
+            <a href="/movielist/romance" className="text-gray-800">
               <p>Romance</p>
             </a>
             <div className="line h-px bg-gray"></div>
