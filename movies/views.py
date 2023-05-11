@@ -61,7 +61,7 @@ class MovieList(APIView):
         imdb_response = requests.get(imdb_url, params=imdb_params)
         imdb_response.raise_for_status()
         imdb_data = imdb_response.json()
-
+        print(imdb_data)
         if imdb_data['items']:
             movies = []
             count = 0
