@@ -9,7 +9,7 @@ from rest_framework.renderers import JSONRenderer
 
 load_dotenv()
 
-IMDB_APIKEY = os.getenv("IMDB_API_KEY")
+IMDB_APIKEY = os.getenv("imdb_api_key")
 
 
 def get_imdb_data(imdb_url, imdb_params, fields):
@@ -116,6 +116,7 @@ class MovieListByGenre(APIView):
         imdb_response = requests.get(imdb_url, params=imdb_params)
         imdb_response.raise_for_status()
         imdb_data = imdb_response.json()
+        print(imdb_data)
 
         if imdb_data['results']:
             movies = []
@@ -236,22 +237,6 @@ class RecommendMovies(APIView):
         else:
             return Response({'message': 'No movies found with the given criteria'})
 
-
-def movies_by_genre(request, genre):
-    movies = Movie.objects.filter(genre=genre)
-    data = {
-        'movies': [
-            {
-                'title': movie.title,
-                'description': movie.description,
-                'genre': movie.genre,
-                'release_date': movie.release_date.strftime('%Y-%m-%d'),
-                'poster': movie.poster.url,
-            }
-            for movie in movies
-        ]
-    }
-    return JsonResponse(data)
 
 
 

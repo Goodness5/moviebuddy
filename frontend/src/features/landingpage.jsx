@@ -8,7 +8,7 @@ const Landingpage = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const res = await fetch('/api/movies');
+      const res = await fetch('/movies/movielist');
       const data = await res.json();
       setMovies(data.movies);
     };
