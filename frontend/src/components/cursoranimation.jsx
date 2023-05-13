@@ -34,8 +34,8 @@ const Cursoranimation = () => {
   }, []);  
 
   return (
-    <div id="rjs_cursor" className="rjs-cursor">
-      <div className="rjs-cursor-icon"></div>
+    <div id="rjs_cursor" className="rjs-cursor w-1/4 rounded-full hidden overflow-hidden absolute">
+      <div className="rjs-cursor-icon overflow-hidden h-80 w-full rounded-full opacity-20 bg-gradient-to-t from-yellow-400 via-[#3b0101] to-[#fff] z-30"></div>
     </div>
   )
 }
