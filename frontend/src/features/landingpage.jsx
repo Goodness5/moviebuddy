@@ -6,6 +6,7 @@ import topstar from '../images/video.svg';
 import Deku from '../images/Deku.svg';
 import { FaSearch, FaMoon } from 'react-icons/fa';
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 const Landingpage = () => {
   const [movies, setMovies] = useState([]);
@@ -80,25 +81,20 @@ const Landingpage = () => {
             </div>
           </div>
 
-
+<div>
+          {Array.isArray(movies) && movies?.map((movie, i) => (
+  <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`} key={i}>
+    <div className='flex flex-col gap-8 m-0 p-3 border'>
+      <h2>{movie?.name}</h2>
+      <img src={movie?.image} alt={movie?.name} className='h-10 w-10' />
+      <p>Rating: {movie?.rating}</p>
+      <a href={movie?.url}>Watch on Netflix</a>
     </div>
-          <div>
-      
-      <div className="text-white p-2"></div>
-      {movies && movies?.message}
-      <div className='grid grid-cols-3 p-8 k m-7'>
-        {Array.isArray(movies) && movies?.map((movie, i) => (
-          <a href='moviedetails/{movie?.name}'>
-          <div key={i} className='flex flex-col gap-8 m-0 p-3 border'>
-            <h2>{movie?.name}</h2>
-            <img src={movie?.image} alt={movie?.name} className='h-10 w-10' />
-            <p>Rating: {movie?.rating}</p>
-            <a href={movie?.net}></a>
-          </div>
-          </a>
-        ))}
-      </div>
-        </div>
+  </Link>
+))}
+</div>
+</div>
+
         </div>
 
         <div className="movies-container mt-6">
