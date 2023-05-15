@@ -5,17 +5,27 @@ import topstar1 from '../images/book.svg';
 import topstar from '../images/video.svg';
 import Deku from '../images/Deku.svg';
 import { FaSearch, FaMoon } from 'react-icons/fa';
+import axios from "axios";
 
 const Landingpage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const res = await fetch('/movies/movielist');
-      const data = await res.json();
-      setMovies(data.movies);
-    };
-    fetchMovies();
+    axios.get('/movies/homepageview')
+      .then(response => {
+        if (response.statusText == 'OK') {
+          // console.log(response.data);
+          // return response.json();
+          return response.data;
+        } else {
+          throw new Error('Something went wrong');
+        }
+      })
+      .then(data => {
+        // console.log(data.recommendations);
+        setMovies(data.recommendations);
+      })
+      .catch(error => console.error(error));
   }, []);
 
   return (
@@ -36,41 +46,57 @@ const Landingpage = () => {
           <img className="mx-auto" src={Deku} alt="" />
         </div>
 
-        <div className="nav flex flex-row justify-between text-center">     
-  <div className='w-full text-left'>moviebuddy</div>
-  <div className="flex flex-row items-center">
-    <form action="">
-      search for anything
-      <label htmlFor="search"> <FaSearch /></label>
-      <input type="search" name="" className='hidden' id="search" />
-    </form>
-  </div>
+        <div className="nav flex  items-center flex-row justify-between text-center">     
+<div className='w-full text-left'>moviebuddy</div>
+<div className="items-center bg-black w-full flex flex-row">
+  <form action="" className=' p-0 flex flex-row items-center'>
+    <input type="search" name="" className='p-1 m-0 text-black ' id="search" placeholder="search for anything" />
+    <label htmlFor="search"><FaSearch className='w-5 h-16 p-0 bg-black' /></label>
+  </form>
   <div className="toggle ml-auto"><FaMoon /></div>
+</div>
 </div>
 
 
 
 
 
-
-        <div className="w-2/3 flex flex-col items-center justify-between text-left">
+        <div className="w-2/5 justify-between flex flex-col border border-blue-600 align-middle">
           <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
-          <p>Recommends books and movies to you based on your personality and taste</p>
-          <div className="flex flex-row justify-between w-2/4 m-auto mt-5">
-            <div className="rounded-full flex border border-black justify-center p-1">
-              <a href="/" className="flex items-center space-x-2 text-white">
-                <p>Recommend Books</p>
+          <p>Moviebuddy employs AI to recommend books and movies to you based on your mood and prefrences</p>
+          <div className="flex flex-row justify-between w-full mt-5">
+            <div className="rounded-full flex border  border-[#242b02] p-1">
+              <a href="/" className="flex  items-center p-4 space-x-2 text-white">
+                Recommend Books
                 <img className="arrow w-6 h-6 text-white " src={topstar1} alt="" />
               </a>
             </div>
 
-            <div className="rounded-full flex border border-black justify-center p-1">
-              <a href="/" className="flex items-center space-x-2 text-white">
-                <p>Recommend Movies</p>
+            <div className="rounded-full flex border border-[#242b02] justify-center p-1">
+              <a href="/" className="flex p-4 items-center space-x-2 text-white">
+                Recommend Movies
                 <img className="arrow w-6 h-6" src={topstar} alt="" />
               </a>
             </div>
           </div>
+
+
+          <div>
+      
+      <div className="text-black">welcome</div>
+      {movies && movies?.message}
+      <div className='grid grid-cols-3 p-8 k m-7'>
+        {Array.isArray(movies) && movies?.map((movie, i) => (
+          <a href='moviedetails/{movie?.name}'>
+          <div key={i} className='flex flex-col gap-8 m-0 p-3 border'>
+            <h2>{movie?.name}</h2>
+            <img src={movie?.image} alt={movie?.name} />
+            <p>Rating: {movie?.rating}</p>
+          </div>
+          </a>
+        ))}
+      </div>
+    </div>
         </div>
 
         <div className="movies-container mt-6">

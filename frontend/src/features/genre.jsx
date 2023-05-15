@@ -30,12 +30,12 @@ return (
       <div className="text-black">welcome</div>
       <h1>{genre}</h1>
       {movies && movies?.message}
-      <div className='grid grid-cols-3 m-0 p-8'>
+      <div className='grid grid-cols-3 p-8 k m-7 text-white'>
         {Array.isArray(movies) && movies?.map((movie, i) => (
-          <div key={i} className='flex flex-col gap-8 m-0 p-3 border'>
+          <div key={i} className='flex flex-col gap-8 m-0 p-3 border text-white'>
             <h2>{movie?.name}</h2>
             <img src={movie?.image} alt={movie?.name} />
-            <p>{movie?.plot}</p>
+            <p className=" text-white">{movie?.plot}</p>
             <p>Rating: {movie?.rating}</p>
           </div>
         ))}
