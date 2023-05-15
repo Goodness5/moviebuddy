@@ -60,7 +60,7 @@ const Landingpage = () => {
 
 
 
-
+    <div className='flex flex-row justify-between'>
         <div className="w-2/5 justify-between flex flex-col border border-blue-600 align-middle">
           <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
           <p>Moviebuddy employs AI to recommend books and movies to you based on your mood and prefrences</p>
@@ -81,22 +81,24 @@ const Landingpage = () => {
           </div>
 
 
+    </div>
           <div>
       
-      <div className="text-black">welcome</div>
+      <div className="text-white p-2"></div>
       {movies && movies?.message}
       <div className='grid grid-cols-3 p-8 k m-7'>
         {Array.isArray(movies) && movies?.map((movie, i) => (
           <a href='moviedetails/{movie?.name}'>
           <div key={i} className='flex flex-col gap-8 m-0 p-3 border'>
             <h2>{movie?.name}</h2>
-            <img src={movie?.image} alt={movie?.name} />
+            <img src={movie?.image} alt={movie?.name} className='h-10 w-10' />
             <p>Rating: {movie?.rating}</p>
+            <a href={movie?.net}></a>
           </div>
           </a>
         ))}
       </div>
-    </div>
+        </div>
         </div>
 
         <div className="movies-container mt-6">
