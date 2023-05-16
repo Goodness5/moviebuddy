@@ -237,7 +237,7 @@ const Landingpage = () => {
       {Array.isArray(books) &&
         books.map((book, i) => (
           <Link to={`/bookdetails/${encodeURIComponent(book.title)}`} key={i}>
-            <div className="grid grid-cols-3 bg-white">
+            <div className="grid grid-cols-3">
               <h2>{book.title}</h2>
               <img src={book.cover} alt={book.title} className="" />
               <a href={book.url}>preview</a>
