@@ -14,10 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.urls import include
 from movies import views
 from django.conf import settings
+from books.views import BookList, BookDetails, BookListByGenre
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
@@ -25,10 +26,13 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')),
+    path('books/', include('books.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
     path('movielist/', views.movielist, name='movie-list'),
-    path('movielist/', views.movielist, name='movie-list'),
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    path('booklist/', BookList.as_view, name='movie-list'),
     path('movielist/<str:genre>', views.movielistbygenre, name='movie-list-genre'),
-    path('movielist/<str:movie_name>/', views.movie_details, name='movie-details'),
-  
+    # path('booklist/<str:genre>', BookListByGenre.as_view, name='book-list-genre'),
+    path('booklist/<path:book_name>/', BookDetails.as_view, name='book-list-details'),
+    path('movielist/<path:movie_name>/', views.moviedetails, name='movie-list-details')
 ] 

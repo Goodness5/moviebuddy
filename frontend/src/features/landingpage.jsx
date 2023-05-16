@@ -5,29 +5,80 @@ import topstar1 from '../images/book.svg';
 import topstar from '../images/video.svg';
 import Deku from '../images/Deku.svg';
 import { FaSearch, FaMoon } from 'react-icons/fa';
-import axios from "axios";
 import { Link } from 'react-router-dom';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+// import '../mine.css'
+// import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
+// import TrendingMoviesCarousel  from "../components/TrendingMoviesCarousel"
+
 
 const Landingpage = () => {
   const [movies, setMovies] = useState([]);
-
+  const [books, setBooks] = useState([]);
+  const [slidemovies, setSlideMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
-    axios.get('/movies/homepageview')
+    fetch('/movies/homepageview')
       .then(response => {
-        if (response.statusText == 'OK') {
-          // console.log(response.data);
-          // return response.json();
-          return response.data;
+        if (response.ok) {
+          setLoading(false);
+          return response.json();
         } else {
           throw new Error('Something went wrong');
         }
       })
       .then(data => {
-        // console.log(data.recommendations);
+        console.log("Fetched movies:", data);
         setMovies(data.recommendations);
       })
       .catch(error => console.error(error));
   }, []);
+  
+  useEffect(() => {
+    fetch('/books/bookshomepageview/')
+      .then((response) => response.json())
+      .then((data) => {
+        setBooks(data.books);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+  
+  
+  useEffect(() => {
+    fetch('/movies/trending')
+      .then(response => {
+        if (response.ok) {
+          setLoading(false);
+          return response.json();
+        } else {
+          throw new Error('Something went wrong');
+        }
+      })
+      .then(data => {
+        console.log("Fetched trending movies:", data);
+        setSlideMovies(data.movies);
+      })
+      .catch(error => console.error(error));
+  }, []);
+  
+  console.log("slidemovies:", slidemovies);
+  console.log("books:", books);
+  
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       <CircularProgress />
+  //     </div>
+  //   );
+  // }
+
+
 
   return (
     <div className=" bg-[#000000] text-white overflow-clip">
@@ -61,8 +112,8 @@ const Landingpage = () => {
 
 
 
-    <div className='flex flex-row justify-between'>
-        <div className="w-2/5 justify-between flex flex-col border border-blue-600 align-middle">
+    <div className='mine flex flex-row justify-between'>
+        <div className="w-2/4 justify-between flex flex-col align-middle max-h-10">
           <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
           <p>Moviebuddy employs AI to recommend books and movies to you based on your mood and prefrences</p>
           <div className="flex flex-row justify-between w-full mt-5">
@@ -80,22 +131,36 @@ const Landingpage = () => {
               </a>
             </div>
           </div>
+          </div>
 
-<div>
-          {Array.isArray(movies) && movies?.map((movie, i) => (
-  <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`} key={i}>
-    <div className='flex flex-col gap-8 m-0 p-3 border'>
-      <h2>{movie?.name}</h2>
-      <img src={movie?.image} alt={movie?.name} className='h-10 w-10' />
-      <p>Rating: {movie?.rating}</p>
-      <a href={movie?.url}>Watch on Netflix</a>
-    </div>
-  </Link>
-))}
-</div>
-</div>
 
+          <div className="grid grid-cols-3 p-6">
+          {Array.isArray(movies) ? (
+  movies.map((movie, i) => (
+    <LazyLoadComponent key={i} effect="opacity">
+      <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
+        <div className="w-full">
+          <img src={movie?.image} alt={movie?.name} className="" />
         </div>
+      </Link>
+    </LazyLoadComponent>
+  ))
+) : (
+  <div className="flex justify-center items-center">
+    <CircularProgress /> 
+  </div>
+)}
+
+</div>
+
+
+
+
+
+
+</div>
+
+        
 
         <div className="movies-container mt-6">
           <div className="line h-px bg-gray-700 flex-grow"></div>
@@ -131,6 +196,27 @@ const Landingpage = () => {
             
               <h1 className="text-3xl">Trending Films?</h1>
               <a href="/">Find them all here</a>
+              <div className="trending">
+
+              <div className="grid grid-cols-4">
+          {Array.isArray(slidemovies) ? (
+  slidemovies.map((movie, i) => (
+    <LazyLoadComponent key={i} effect="opacity">
+      <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
+        <div className="w-full">
+          <img src={movie?.image} alt={movie?.name} className="" />
+        </div>
+      </Link>
+    </LazyLoadComponent>
+  ))
+) : (
+  <div className="flex justify-center items-center">
+    <CircularProgress /> 
+  </div>
+)}
+
+</div>
+              </div>
           </div>
 
           <div className="movieseg h-8 bg-black">
@@ -146,6 +232,20 @@ const Landingpage = () => {
                     <a href="/">Find them all here</a>
                     </span>
                 </div>
+
+                <div>
+      {Array.isArray(books) &&
+        books.map((book, i) => (
+          <Link to={`/bookdetails/${encodeURIComponent(book.title)}`} key={i}>
+            <div className="grid grid-cols-3 bg-white">
+              <h2>{book.title}</h2>
+              <img src={book.cover} alt={book.title} className="" />
+              <a href={book.url}>preview</a>
+            </div>
+          </Link>
+        ))}
+    </div>
+
                 <div className="movies-container mt-6">
           <div className="line h-px bg-gray-700 flex-grow"></div>
           <div className="navigation flex items-center justify-between mt-4">

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import { Link } from 'react-router-dom';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/opacity.css';
+// import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
@@ -25,18 +30,27 @@ return (
     <div>
       <h1>All Movies</h1>
       {movies && movies?.message}
-      <div className='grid grid-cols-3 m-0 p-8'>
-        {Array.isArray(movies) && movies?.map((movie, i) => (
-          <div key={i} className='flex flex-col gap-8 m-0 p-3 border'>
-            <h2>{movie?.name}</h2>
-            <img src={movie?.image} alt={movie?.name} />
-            <p>{movie?.plot}</p>
-            <p>Rating: {movie?.rating}</p>
+      <div className=''>
+      {Array.isArray(movies) ? (
+          movies.map((movie, i) => (
+            <LazyLoadComponent key={i} effect="opacity">
+              <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
+                <div className="w-full">
+                  <img src={movie?.image} alt={movie?.name} className="h-26" />
+                </div>
+              </Link>
+            </LazyLoadComponent>
+          ))
+        ) : (
+          <div className="flex justify-center items-center">
+            <CircularProgress /> {/* Add the loading animation component */}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
         }  
+
+        
 
 export default MovieList;
