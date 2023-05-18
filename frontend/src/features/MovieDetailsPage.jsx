@@ -11,7 +11,7 @@ const MovieDetailsPage = ({ movies }) => {
 
   return (
     <div className='m-auto w-3/4 rounded-lg border border-red-700 bg-[#5a4747]'>
-    <h1>{movieDetails.name}</h1>
+    <h1 className='text-white text-2xl'>{movieDetails.name}</h1>
     <img src={movieDetails.image} height={10} width={20} className='w-full' alt={movieDetails.name} />
     <p className='text-white'>Rating: {movieDetails.rating}</p>
     <p>Description: {movieDetails.plot}</p>

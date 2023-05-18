@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // import topstar1 from '../images/topstar1.svg';
 // import topstar from '../images/topstar.svg';
 import topstar1 from '../images/book.svg';
@@ -11,7 +11,8 @@ import 'react-lazy-load-image-component/src/effects/opacity.css';
 // import '../mine.css'
 // import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
-// import TrendingMoviesCarousel  from "../components/TrendingMoviesCarousel"
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 
 const Landingpage = () => {
@@ -19,6 +20,7 @@ const Landingpage = () => {
   const [books, setBooks] = useState([]);
   const [slidemovies, setSlideMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const carouselRef = useRef(null);
   
   useEffect(() => {
     fetch('/movies/homepageview')
@@ -66,6 +68,16 @@ const Landingpage = () => {
       .catch(error => console.error(error));
   }, []);
   
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (carouselRef.current) {
+        carouselRef.current.next();
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   console.log("slidemovies:", slidemovies);
   console.log("books:", books);
   
@@ -113,12 +125,12 @@ const Landingpage = () => {
 
 
     <div className='mine flex flex-row justify-between'>
-        <div className="w-2/4 justify-between flex flex-col align-middle max-h-10">
+        <div className="w-2/4 justify-between flex flex-col align-middle">
           <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
           <p>Moviebuddy employs AI to recommend books and movies to you based on your mood and prefrences</p>
           <div className="flex flex-row justify-between w-full mt-5">
             <div className="rounded-full flex border  border-[#242b02] p-1">
-              <a href="/" className="flex  items-center p-4 space-x-2 text-white">
+              <a href="/booklist" className="flex  items-center p-4 space-x-2 text-white">
                 Recommend Books
                 <img className="arrow w-6 h-6 text-white " src={topstar1} alt="" />
               </a>
@@ -198,24 +210,23 @@ const Landingpage = () => {
               <a href="/">Find them all here</a>
               <div className="trending">
 
-              <div className="grid grid-cols-4">
-          {Array.isArray(slidemovies) ? (
-  slidemovies.map((movie, i) => (
-    <LazyLoadComponent key={i} effect="opacity">
-      <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
-        <div className="w-full">
-          <img src={movie?.image} alt={movie?.name} className="" />
+              <div className='flex flex-col w-9/12 h-2/6 p-4 bg-white'>
+      {Array.isArray(movies) ? (
+        <Carousel showThumbs={false} interval={4000} ref={carouselRef}>
+          {movies.map((movie, i) => (
+            <div key={i}>
+              <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
+                <img src={movie?.image} alt={movie?.name} className="w-full h-2/6" />
+              </Link>
+            </div>
+          ))}
+        </Carousel>
+      ) : (
+        <div className="flex justify-center items-center">
+          <CircularProgress />
         </div>
-      </Link>
-    </LazyLoadComponent>
-  ))
-) : (
-  <div className="flex justify-center items-center">
-    <CircularProgress /> 
-  </div>
-)}
-
-</div>
+      )}
+    </div>
               </div>
           </div>
 
@@ -233,18 +244,28 @@ const Landingpage = () => {
                     </span>
                 </div>
 
-                <div>
-      {Array.isArray(books) &&
-        books.map((book, i) => (
-          <Link to={`/bookdetails/${encodeURIComponent(book.title)}`} key={i}>
-            <div className="grid grid-cols-3">
-              <h2>{book.title}</h2>
-              <img src={book.cover} alt={book.title} className="" />
-              <a href={book.url}>preview</a>
-            </div>
-          </Link>
-        ))}
-    </div>
+
+                <h1>All Books</h1>
+      <div className="grid grid-cols-3 mt-6 rounded-lg">
+        {Array.isArray(books) ? (
+          books.map((book, i) => (
+            <LazyLoadComponent key={i} effect="opacity">
+              <Link to={`/bookdetails/${encodeURIComponent(book?.title)}`}>
+                <div className="rounded-2xl p-2 m-12 bg-blue-200 flex flex-col">
+                  <img src={book?.cover} alt={book?.title} className="" />
+                  <p>{book?.title}</p>
+                </div>
+              </Link>
+            </LazyLoadComponent>
+          ))
+        ) : (
+          <div className="flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        )}
+      </div>
+
+
 
                 <div className="movies-container mt-6">
           <div className="line h-px bg-gray-700 flex-grow"></div>

@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.renderers import JSONRenderer
+import json
 
 load_dotenv()
 
@@ -27,29 +28,32 @@ def get_openlibrary_data(openlibrary_url, openlibrary_params, fields):
 class HomepageView(APIView):
     renderer_classes = [JSONRenderer]
 
-    def get(self, request):
-        limit = 10  # Number of books to retrieve
-        openlibrary_url = 'http://openlibrary.org/search/lists.json'
-        openlibrary_params = {
+    def get_trending_books(self, limit=10):
+        google_books_url = 'https://www.googleapis.com/books/v1/volumes'
+        google_books_params = {
             'q': 'book',
-            'limit': limit,
-            'offset': 0
+            'maxResults': limit,
+            'orderBy': 'newest'
         }
 
-        openlibrary_response = requests.get(openlibrary_url, params=openlibrary_params)
-        openlibrary_response.raise_for_status()
-        openlibrary_data = openlibrary_response.json()
-        print("books:", openlibrary_data)
-        books = openlibrary_data.get('docs', [])
+        google_books_response = requests.get(google_books_url, params=google_books_params)
+        google_books_response.raise_for_status()
+        google_books_data = google_books_response.json().get('items', [])
+
         book_data = []
-        for book in books:
-            book_title = book.get('name')
+        for item in google_books_data:
+            volume_info = item.get('volumeInfo', {})
+            book_title = volume_info.get('title')
             book_cover = None
-            if 'seed_count' in book:
-                cover_id = book['seed_count']
-                book_cover = f"http://covers.openlibrary.org/b/id/{cover_id}-M.jpg"
+            image_links = volume_info.get('imageLinks')
+            if image_links:
+                book_cover = image_links.get('thumbnail')
             book_data.append({'title': book_title, 'cover': book_cover})
 
+        return book_data
+
+    def get(self, request):
+        book_data = self.get_trending_books(limit=30)
         return Response({'books': book_data})
 
 
@@ -57,38 +61,32 @@ class HomepageView(APIView):
 
 
 class BookList(APIView):
-    renderer_classes = [JSONRenderer]
-
     def get(self, request):
-        genre = request.GET.get('genre')
-        openlibrary_url = 'https://openlibrary.org/subjects.json'
-        openlibrary_params = {'limit': 5}
-        if genre:
-            openlibrary_params['subject'] = genre
-        fields = ['title', 'cover_i']
-
-        openlibrary_response = requests.get(openlibrary_url, params=openlibrary_params)
-        openlibrary_response.raise_for_status()
-        openlibrary_data = openlibrary_response.json()
-        if openlibrary_data['works']:
+        limit = 50  # Number of books to retrieve
+        search_query = 'books'
+        open_library_url = 'https://openlibrary.org/search.json'
+        open_library_params = {'limit': limit, 'q': search_query}
+        # print(open_library_params)
+        try:
+            open_library_response = requests.get(open_library_url, params=open_library_params)
+            open_library_response.raise_for_status()
+            open_library_data = open_library_response.json()
+            print("data is",open_library_data)
             books = []
-            count = 0
-            for book in openlibrary_data['works']:
-                if count == 5:
-                    break
-                title = book['title']
-                books.append({
-                    'name': title,
-                    'url': f'https://openlibrary.org/search?q={title.replace(" ", "+")}',
-                    'cover': f'https://covers.openlibrary.org/b/id/{book["cover_i"]}-M.jpg' if 'cover_i' in book else None,
-                })
-                count += 1
-            return Response({'recommendations': books})
-        else:
-            return Response({'message': 'No books found with the given criteria'})
+            if 'docs' in open_library_data:
+                for doc in open_library_data['docs']:
+                    book = {
+                        'title': doc.get('title'),
+                        'authors': doc.get('author_name'),
+                        'description': doc.get('description'),
+                        'publishedDate': doc.get('publish_date'),
+                        'imageLinks': doc.get('cover_i'),
+                    }
+                    books.append(book)
+            return Response(books)
+        except requests.exceptions.RequestException as e:
+            return Response({'message': f'Error occurred: {str(e)}'})
 
-
-        
 class BookListByGenre(APIView):
     def get(self, request):
         genre = request.GET.get('genre')

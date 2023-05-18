@@ -3,7 +3,9 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Genre from "./features/genre";
 import MovieList from "./features/movielist.jsx"
+import BookList from "./features/booklist";
 import MovieDetailsPage from "./features/MovieDetailsPage"
+import BookDetailsPage from "./features/BooksDetailsPage";
 import axios from "axios";
 import Landingpage from './features/landingpage';
 
@@ -33,8 +35,10 @@ export default function App() {
       <Routes>
       <Route exact path="/" element={<Landingpage movies={movies} />} />
         <Route path="/movielist" element={<MovieList />} />
+        <Route path="/booklist" element={<BookList />} />
         <Route path="/movielist/:genre" element={<Genre />} />
         <Route path="/moviedetails/:movieName" element={<MovieDetailsPage movies={movies} />}  />
+        <Route path="/bookdetails/:bookName" element={<BookDetailsPage  />}  />
       </Routes>
     </BrowserRouter>
   );
