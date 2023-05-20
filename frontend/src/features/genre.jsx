@@ -31,7 +31,7 @@ const Genre = () => {
 return (
     <div>
       
-      <div className="text-black">welcome</div>
+      <div className="text-white">welcome</div>
       <h1>{genre}</h1>
       {movies && movies?.message}
       <div className='grid grid-cols-3 text-white'>

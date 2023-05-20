@@ -110,7 +110,7 @@ const Landingpage = () => {
           <img className="mx-auto" src={Deku} alt="" />
         </div>
 
-        <div className="nav flex  items-center flex-row justify-between text-center">     
+        <div className="nav flex  items-center flex-row justify-between text-center ">     
 <div className='w-full text-left'>moviebuddy</div>
 <div className="items-center bg-black w-full flex flex-row">
   <form action="" className=' p-0 flex flex-row items-center'>
@@ -125,7 +125,7 @@ const Landingpage = () => {
 
 
     <div className='mine flex flex-row justify-between'>
-        <div className="w-2/4 justify-between flex flex-col align-middle">
+        <div className="w-2/4 justify-between flex flex-col align-middle max-h-12">
           <h1 className="text-6xl text-left font-bold mb-4">Books &amp; Movies</h1>
           <p>Moviebuddy employs AI to recommend books and movies to you based on your mood and prefrences</p>
           <div className="flex flex-row justify-between w-full mt-5">
@@ -152,7 +152,7 @@ const Landingpage = () => {
     <LazyLoadComponent key={i} effect="opacity">
       <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
         <div className="w-full">
-          <img src={movie?.image} alt={movie?.name} className="" />
+          <img src={movie?.image} alt={movie?.name} className=" h-40" />
         </div>
       </Link>
     </LazyLoadComponent>
@@ -186,7 +186,7 @@ const Landingpage = () => {
   <a href="/movielist/korean-series" className="text-white">
     <p>Korean Series</p>
   </a>
-  <a href="/movielist" className="text-white">
+  <a href="/movielists" className="text-white">
     <p>Movies</p>
   </a>
   <a href="/movielist/horror" className="text-white">
@@ -210,13 +210,13 @@ const Landingpage = () => {
               <a href="/">Find them all here</a>
               <div className="trending">
 
-              <div className='flex flex-col w-9/12 h-2/6 p-4 bg-white'>
+              <div className='flex flex-col w-9/12 m-auto h-2/6 p-4 bg-white'>
       {Array.isArray(movies) ? (
         <Carousel showThumbs={false} interval={4000} ref={carouselRef}>
           {movies.map((movie, i) => (
             <div key={i}>
               <Link to={`/moviedetails/${encodeURIComponent(movie?.name)}`}>
-                <img src={movie?.image} alt={movie?.name} className="w-full h-2/6" />
+                <img src={movie?.image} alt={movie?.name} className="w-full h-[100vh]" />
               </Link>
             </div>
           ))}

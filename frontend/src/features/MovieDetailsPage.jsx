@@ -20,5 +20,4 @@ const MovieDetailsPage = ({ movies }) => {
   </div>
   )
 }  
-
 export default MovieDetailsPage;

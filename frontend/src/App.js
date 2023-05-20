@@ -34,7 +34,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
       <Route exact path="/" element={<Landingpage movies={movies} />} />
-        <Route path="/movielist" element={<MovieList />} />
+        <Route path="/movielists" element={<MovieList />} />
         <Route path="/booklist" element={<BookList />} />
         <Route path="/movielist/:genre" element={<Genre />} />
         <Route path="/moviedetails/:movieName" element={<MovieDetailsPage movies={movies} />}  />

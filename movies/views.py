@@ -182,7 +182,7 @@ class MovieListByGenre(APIView):
                 movies = []
                 count = 0
                 for movie in omdb_data['Search']:
-                    if count == 5:
+                    if count == 15:
                         break
                     title = movie['Title']
                     movie_url = f'http://www.omdbapi.com/?t={title}&apikey=937f926d&plot=full'
@@ -340,6 +340,7 @@ class MovieList(APIView):
 
     def get(self, request):
         genre = request.GET.get('genre')
+        print('gettinnnnnnnnnnnng')
         omdb_url = 'http://www.omdbapi.com/?937f926d='+'937f926d'
         omdb_params = {'type': 'movie', 'apikey': '937f926d'}
         if genre:

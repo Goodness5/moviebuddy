@@ -71,7 +71,7 @@ class BookList(APIView):
             open_library_response = requests.get(open_library_url, params=open_library_params)
             open_library_response.raise_for_status()
             open_library_data = open_library_response.json()
-            print("data is",open_library_data)
+            # print("data is",open_library_data)
             books = []
             if 'docs' in open_library_data:
                 for doc in open_library_data['docs']:

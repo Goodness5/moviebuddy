@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.urls import include
 from movies import views
-from movies.views import Homepageview
+from movies.views import Homepageview, MovieList
 from django.conf import settings
 from books.views import BookList, BookDetails, BookListByGenre
 from django.conf.urls.static import static
@@ -29,7 +29,7 @@ urlpatterns = [
     path('movies/', include('movies.urls')),
     path('books/', include('books.urls')),
     path('', TemplateView.as_view(template_name='index.html')),
-    path('movielist/', views.movielist, name='movie-list'),
+    path('movies/movielist/', MovieList.as_view(), name='movie-list'),
     path('movies/homepageview', Homepageview.as_view(), name='homepageview'),
     re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
     # path('booklist/', BookList.as_view, name='movie-list'),
